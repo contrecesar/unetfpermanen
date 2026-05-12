@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Costos y PVS - Avanzado</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="header-main">
+                <img src="logo-unet_con_texto_azul.png" alt="UNET Logo" class="header-logo logo-left">
+                <div class="header-titles">
+                    <h1>Gestión de Costos y PVS</h1>
+                    <p class="coordinator-title">Coordinación de Formación Permanente</p>
+                    <p class="subtitle">Análisis de Precios de Cursos - Versión Avanzada</p>
+                </div>
+                <img src="LOGO-EXTENSION transparente.png" alt="Extensión Logo" class="header-logo logo-right">
+            </div>
+
+            <div class="exchange-rates-bar">
+                <div class="rate-input">
+                    <label for="rateCOP">1 USD a COP</label>
+                    <input type="number" id="rateCOP" value="3900" step="0.01">
+                </div>
+                <div class="rate-input">
+                    <label for="rateBS">1 USD a Bs.</label>
+                    <input type="number" id="rateBS" value="36.50" step="0.01">
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Datos Básicos -->
+            <section class="card section-basic-data">
+                <h2><span class="icon">📊</span> Datos del Curso</h2>
+                <div class="grid-inputs">
+                    <div class="input-group">
+                        <label for="courseName">Nombre del Curso</label>
+                        <input type="text" id="courseName" placeholder="Ej: Especialización ISO 9001">
+                    </div>
+                    <div class="input-group">
+                        <label for="facilitatorName">Facilitador</label>
+                        <input type="text" id="facilitatorName" placeholder="Nombre completo">
+                    </div>
+                    <div class="input-group">
+                        <label for="employeeName">Elaborado por (Funcionario)</label>
+                        <input type="text" id="employeeName" placeholder="Nombre del funcionario">
+                    </div>
+                    <div class="input-group">
+                        <label for="numParticipants">Nº Participantes (n)</label>
+                        <input type="number" id="numParticipants" value="10" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="numHours">Horas del Curso (H)</label>
+                        <input type="number" id="numHours" value="20" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="facilitatorRate">Tasa Facilitador (T)</label>
+                        <input type="number" id="facilitatorRate" value="50" min="0" step="0.01">
+                        <span class="unit">USD/Part.</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="numNights">Noches Hospedaje</label>
+                        <input type="number" id="numNights" value="0" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="utilityPercent">Utilidad (%) (Cat 6)</label>
+                        <input type="number" id="utilityPercent" value="5" min="0" step="0.1">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categorías de Costos -->
+            <section class="section-costs">
+                <h2><span class="icon">💰</span> Estructura de Costos</h2>
+
+                <!-- Categoría 1: Dependientes de n -->
+                <div class="accordion">
+                    <button class="accordion-header">
+                        <span>Cat 1: Dependientes de numero de Participantes</span>
+                        <span class="chevron">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="cost-table-header">
+                            <span>Ítem</span>
+                            <span>Costo Unit.</span>
+                        </div>
+                        <div id="cat1-items" class="cost-items">
+                            <!-- Items will be injected by JS -->
+                        </div>
+                        <div class="cat-total">Subtotal Cat 1: <span id="total-cat1">$0.00</span></div>
+                    </div>
+                </div>
+
+                <!-- Categoría 2: Dependientes de H -->
+                <div class="accordion">
+                    <button class="accordion-header">
+                        <span>Cat 2: Dependientes del numero de Horas</span>
+                        <span class="chevron">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="cost-table-header">
+                            <span>Ítem</span>
+                            <span>Costo Unit.</span>
+                        </div>
+                        <div id="cat2-items" class="cost-items"></div>
+                        <div class="cat-total">Subtotal Cat 2: <span id="total-cat2">$0.00</span></div>
+                    </div>
+                </div>
+
+                <!-- Categoría 3: Fijos Globales -->
+                <div class="accordion">
+                    <button class="accordion-header">
+                        <span>Cat 3: Costos Fijos Globales</span>
+                        <span class="chevron">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="cost-table-header">
+                            <span>Ítem</span>
+                            <span>Costo Unit.</span>
+                        </div>
+                        <div id="cat3-items" class="cost-items"></div>
+                        <div class="cat-total">Subtotal Cat 3: <span id="total-cat3">$0.00</span></div>
+                    </div>
+                </div>
+
+                <!-- Categoría 4: Variables Globales -->
+                <div class="accordion">
+                    <button class="accordion-header">
+                        <span>Cat 4: Costos Variables Globales</span>
+                        <span class="chevron">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="cost-table-header">
+                            <span>Ítem</span>
+                            <span>Costo Unit.</span>
+                        </div>
+                        <div id="cat4-items" class="cost-items"></div>
+                        <div class="cat-total">Subtotal Cat 4: <span id="total-cat4">$0.00</span></div>
+                    </div>
+                </div>
+
+                <!-- Categoría 5: Por Pernocta -->
+                <div class="accordion">
+                    <button class="accordion-header">
+                        <span>Cat 5: Por Pernocta</span>
+                        <span class="chevron">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="cost-table-header">
+                            <span>Ítem</span>
+                            <span>Costo Noche</span>
+                        </div>
+                        <div id="cat5-items" class="cost-items"></div>
+                        <div class="cat-total">Subtotal Cat 5: <span id="total-cat5">$0.00</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resultados Finales -->
+            <section class="card section-results">
+                <h2><span class="icon">📈</span> Resultados Finales</h2>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <label>Honorarios Facilitador (HF)</label>
+                        <div id="res-hf" class="value">$0.00</div>
+                    </div>
+                    <div class="result-item">
+                        <label>Otros Costos (OCF)</label>
+                        <div id="res-ocf" class="value">$0.00</div>
+                    </div>
+                    <div class="result-item highlight">
+                        <label>Costo Total (SCU)</label>
+                        <div id="res-scu" class="value">$0.00</div>
+                    </div>
+                    <div class="result-item highlight pvs">
+                        <label>PVS Final (por persona)</label>
+                        <div id="res-pvs" class="value">$0.00</div>
+                        <div class="currency-conversions">
+                            <span id="res-pvs-cop">0 COP</span> | <span id="res-pvs-bs">0 Bs.</span>
+                        </div>
+                    </div>
+                    <div class="result-item highlight net-income">
+                        <label>Ingreso Neto Total (n part.)</label>
+                        <div id="res-net" class="value">$0.00</div>
+                        <div class="currency-conversions">
+                            <span id="res-net-cop">0 COP</span> | <span id="res-net-bs">0 Bs.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-secondary-grid">
+                    <div class="res-sec-item">
+                        <span>Total SCU:</span>
+                        <strong id="res-scu-cop">0 COP</strong> | <strong id="res-scu-bs">0 Bs.</strong>
+                    </div>
+                </div>
+
+                <div class="retentions-box">
+                    <h3>Retenciones</h3>
+                    <div class="retention-row">
+                        <span>Fondo de Anticipo (20%)</span>
+                        <span id="ret-anticipo">$0.00</span>
+                    </div>
+                    <div class="retention-row">
+                        <span>Bono Productividad (12%)</span>
+                        <span id="ret-bono">$0.00</span>
+                    </div>
+                </div>
+
+                <button id="btnGenerateReport" class="btn-primary">Generar Informe</button>
+            </section>
+        </main>
+    </div>
+
+    <!-- Hidden Report Template -->
+    <div id="report-template" style="display: none;">
+        <!-- Content will be injected for printing -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
