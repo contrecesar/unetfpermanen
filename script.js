@@ -85,11 +85,11 @@ function setupEventListeners() {
             const cat = e.target.dataset.cat;
             const id = e.target.dataset.id;
             const value = parseFloat(e.target.value) || 0;
-            
+
             // Update data structure
             const item = costCategories[cat].find(i => i.id === id);
             if (item) item.value = value;
-            
+
             calculate();
         }
     });
@@ -100,7 +100,7 @@ function setupEventListeners() {
 
 function calculate() {
     const getVal = (id) => parseFloat(document.getElementById(id)?.value) || 0;
-    
+
     const n = parseInt(document.getElementById('numParticipants')?.value) || 0;
     const H = parseInt(document.getElementById('numHours')?.value) || 0;
     const T = getVal('facilitatorRate');
@@ -144,8 +144,8 @@ function calculate() {
     const scu = (hf + ocf) * (1 + utility / 100);
     document.getElementById('res-scu').textContent = `$${scu.toFixed(2)}`;
 
-    // PVS = SCU / (0.68 * n)
-    const pvs = n > 0 ? scu / (0.68 * n) : 0;
+    // PVS = SCU / (0.65 * n)
+    const pvs = n > 0 ? scu / (0.65 * n) : 0;
     document.getElementById('res-pvs').textContent = `$${pvs.toFixed(2)}`;
 
     // Ingreso Neto Total = PVS * n
@@ -170,7 +170,7 @@ function calculate() {
 
     // Retentions (on SCU)
     const retAnticipo = scu * 0.20;
-    const retBono = scu * 0.12;
+    const retBono = scu * 0.15;
     document.getElementById('ret-anticipo').textContent = `$${retAnticipo.toFixed(2)}`;
     document.getElementById('ret-bono').textContent = `$${retBono.toFixed(2)}`;
 }
@@ -182,7 +182,7 @@ function generateReport() {
     const employeeName = document.getElementById('employeeName').value || 'S/N';
     const n = document.getElementById('numParticipants').value;
     const H = document.getElementById('numHours').value;
-    
+
     let costsHtml = '';
     for (const [cat, items] of Object.entries(costCategories)) {
         costsHtml += `<h3>${cat.toUpperCase()}</h3><table style="width:100%; border-collapse: collapse; margin-bottom: 20px;">`;
@@ -203,7 +203,7 @@ function generateReport() {
                 </div>
                 <img src="LOGO-EXTENSION transparente.png" style="max-height: 70px;">
             </div>
-            
+
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; background: #f9f9f9; padding: 20px; border-radius: 8px; font-size: 0.95rem;">
                 <div><strong>Curso:</strong> ${courseName}</div>
                 <div><strong>Facilitador:</strong> ${facilitatorName}</div>
