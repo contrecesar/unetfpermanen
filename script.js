@@ -169,8 +169,8 @@ function calculate() {
     updateConv('res-scu-bs', scu, rateBS, 'Bs.');
 
     // Retentions (on SCU)
-    const retAnticipo = scu * 0.20;
-    const retBono = scu * 0.15;
+    const retAnticipo = scu/.65 * 0.20;
+    const retBono = scu/.65 * 0.15;
     document.getElementById('ret-anticipo').textContent = `$${retAnticipo.toFixed(2)}`;
     document.getElementById('ret-bono').textContent = `$${retBono.toFixed(2)}`;
 }
